@@ -1,14 +1,15 @@
 require("gui.ScannerService")
 
-CanvasService = {canvas = nil, offset = 100, scannerService = nil, blockName = "minecraft:iron_ore"}
+CanvasService = {canvas = nil, offset = 100, scannerService = nil, blockName = nil}
 
-function CanvasService:new(o, canvas)
+function CanvasService:new(o, canvas, scannerService, blockName)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
     self.canvas = canvas
 
-    self.scannerService = ScannerService:new(nil, peripheral.wrap("back"), self.blockName)
+    self.scannerService = scannerService
+    self.blockName = blockName
 
     self.canvas.clear()
 
@@ -103,8 +104,8 @@ function CanvasService:draw(prisms)
     local blockNameText = self.canvas.addText({y = 0, x = 5}, "")
     blockNameText.setText("Block: " .. self.blockName)
 
-    if metaData ~= nil then
-        local coordText = self.canvas.addText({y = 10, x = 5}, "")
-        coordText.setText("X: " .. metaData.x .. " Y: " .. metaData.y .. " Z: " .. metaData.z)
-    end
+    -- if metaData ~= nil then
+    --     local coordText = self.canvas.addText({y = 10, x = 5}, "")
+    --     coordText.setText("X: " .. metaData.x .. " Y: " .. metaData.y .. " Z: " .. metaData.z)
+    -- end
 end

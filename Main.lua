@@ -1,6 +1,7 @@
 require("gui.CanvasService")
+require("gui.ScannerService")
 
-Main = {canvasService = nil, width = 50, widthPos = 0, widthNegativePos = 0}
+Main = {canvasService = nil, width = 50, widthPos = 0, widthNegativePos = 0, blockName = "minecraft:iron_ore"}
 
 function Main:new(o)
     o = o or {}
@@ -10,7 +11,13 @@ function Main:new(o)
     self.widthPos = self.width / 2
     self.widthNegativePos = self.width / 2 * -1
 
-    self.canvasService = CanvasService:new(nil, peripheral.wrap("back").canvas())
+    local scanner = ScannerService:new(nil, peripheral.wrap("back"), arg[1],
+        function(block)
+            return block.name == self.blockName
+        end
+    )
+
+    self.canvasService = CanvasService:new(nil, peripheral.wrap("back").canvas(), scanner, self.blockName)
 
     return o
 end

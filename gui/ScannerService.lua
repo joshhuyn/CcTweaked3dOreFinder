@@ -1,12 +1,12 @@
-ScannerService = {scanner = nil, blockTag = "", playerName = nil}
+ScannerService = {scanner = nil, blockIsValid = nil, playerName = nil}
 
-function ScannerService:new(o, scanner, blockTag)
+function ScannerService:new(o, scanner, playerName, blockIsValid)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
     self.scanner = scanner
-    self.blockTag = blockTag
-    self.playerName = "JoshJHB"
+    self.playerName = playerName
+    self.blockIsValid = blockIsValid
 
     return o
 end
@@ -27,7 +27,7 @@ function ScannerService:getBlocks()
     local blocks = {}
 
     for _, v in pairs(scan) do
-        if v.name == self.blockTag then
+        if self.blockIsValid(v) then
             blocks[#blocks + 1] = v
         end
     end
