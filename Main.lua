@@ -23,7 +23,7 @@ function Main:start()
     end
 end
 
-function Main:createPrism()
+function Main:createPrism2()
     local stack = {}
 
     stack[#stack + 1] = { -- back
@@ -67,7 +67,7 @@ function Main:createPrism()
     return stack
 end
 
-function Main:createPrism2()
+function Main:createPrism()
     local stack = {}
 
     stack[#stack + 1] = { -- back
@@ -165,24 +165,24 @@ function Main:createPrism2()
         color = 0xFFFFFFFF
     }
 
-    stack[#stack + 1] = { -- bottom 2
-        v1 = {
-            x = self.widthNegativePos,
-            y = self.widthPos,
-            z = self.widthNegativePos
-        },
-        v2 = {
-            x = self.widthNegativePos,
-            y = self.widthPos,
-            z = self.widthNegativePos
-        },
-        v3 = {
-            x = self.widthPos,
-            y = self.widthPos,
-            z = self.widthNegativePos
-        },
-        color = 0xFFFFFFFF
-    }
+    -- stack[#stack + 1] = { -- bottom 2
+    --     v1 = {
+    --         x = self.widthNegativePos,
+    --         y = self.widthPos,
+    --         z = self.widthNegativePos
+    --     },
+    --     v2 = {
+    --         x = self.widthNegativePos,
+    --         y = self.widthPos,
+    --         z = self.widthNegativePos
+    --     },
+    --     v3 = {
+    --         x = self.widthPos,
+    --         y = self.widthPos,
+    --         z = self.widthNegativePos
+    --     },
+    --     color = 0xFFFFFFFF
+    -- }
 
     return stack
 end

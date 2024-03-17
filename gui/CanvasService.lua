@@ -1,6 +1,6 @@
 require("gui.ScannerService")
 
-CanvasService = {canvas = nil, offset = 100, scannerService = nil}
+CanvasService = {canvas = nil, offset = 100, scannerService = nil, blockName = "minecraft:iron_ore"}
 
 function CanvasService:new(o, canvas)
     o = o or {}
@@ -8,7 +8,7 @@ function CanvasService:new(o, canvas)
     self.__index = self
     self.canvas = canvas
 
-    self.scannerService = ScannerService:new(nil, peripheral.wrap("back"), "minecraft:iron_ore")
+    self.scannerService = ScannerService:new(nil, peripheral.wrap("back"), self.blockName)
 
     self.canvas.clear()
 
@@ -63,20 +63,27 @@ function CanvasService:sameSide(A, B, C, p)
 end
 
 function CanvasService:draw(prisms)
-    self.canvas.clear()
     local width = 25 * 2
     local metaData = self:getMetaData()
 
     local heading = metaData.yaw
-    local headingTransform = {math.cos(heading), 0, -math.sin(heading), 0, 1, 0, math.sin(heading), 0, math.cos(heading)}
+    local headingTransform = {
+        math.cos(heading), 0, math.sin(heading),
+        0, 1, 0,
+        -math.sin(heading), 0, math.cos(heading)
+    }
 
     local pitch = metaData.pitch
-    local pitchTransform = {1, 0, 0, 0, math.cos(pitch), math.sin(pitch), 0, -math.sin(pitch), math.cos(pitch)}
+    local pitchTransform = {
+        1, 0, 0,
+        0, math.cos(pitch), -math.sin(pitch),
+        0, math.sin(pitch), math.cos(pitch)
+    }
 
-    local transform = self:multiply(headingTransform, pitchTransform)
+    local transform = self:multiply(pitchTransform, headingTransform)
     local vertecies = {}
 
-    for k,v in pairs(prisms) do
+    for _,v in pairs(prisms) do
         local v1 = self:transform(v.v1, transform)
         local v2 = self:transform(v.v2, transform)
         local v3 = self:transform(v.v3, transform)
@@ -87,23 +94,17 @@ function CanvasService:draw(prisms)
     end
 
     table.sort(vertecies, compare)
+    self.canvas.clear()
 
-    for k, v in pairs(vertecies) do
+    for _, v in pairs(vertecies) do
         self.canvas.addTriangle(v.v1, v.v2, v.v3, v.color)
     end
 
-    local text = self.canvas.addText({y = 10, x = 10}, "")
-    text.setText(tostring(metaData.yaw))
+    local blockNameText = self.canvas.addText({y = 0, x = 5}, "")
+    blockNameText.setText("Block: " .. self.blockName)
 
-    local textX = self.canvas.addText({y = 20, x = 10}, "")
-    textX.setText(tostring(metaData.pitch))
-
-    local textDeg = self.canvas.addText({y = 30, x = 10}, "")
-    textDeg.setText(tostring(math.deg(metaData.pitch)))
-
-    local textPosX = self.canvas.addText({y = 40, x = 10}, "")
-    textPosX.setText(tostring("X: " .. metaData.x))
-
-    local textPosY = self.canvas.addText({y = 50, x = 10}, "")
-    textPosY.setText(tostring("Y: " .. metaData.y))
+    if metaData ~= nil then
+        local coordText = self.canvas.addText({y = 10, x = 5}, "")
+        coordText.setText("X: " .. metaData.x .. " Y: " .. metaData.y .. " Z: " .. metaData.z)
+    end
 end
