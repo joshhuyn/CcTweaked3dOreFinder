@@ -77,28 +77,20 @@ function ScannerService:getAngle()
 
     local pitch = math.rad(360) - math.atan(x / y)
 
-    if closestBlock.y == 0 then
-        pitch = math.rad(270)
-    end
-    
-    print(math.deg(pitch))
-
     if yFlipped then
-        pitch = pitch - math.pi
+        -- pitch = pitch + math.pi - math.rad(360) - math.rad(180)
+        pitch = math.rad(180) - pitch
     end
-
-    if xFlipped then
-        pitch = pitch - math.pi
-    end
-
 
     local yaw = math.atan(closestBlock.x / closestBlock.z)
     if yaw < 0 then
-        yaw = math.rad(360) - yaw
+        yaw = yaw
     end
 
     return {
         pitch = pitch,
-        yaw = yaw
+        yaw = yaw,
+        x = closestBlock.x,
+        y = closestBlock.y
     }
 end

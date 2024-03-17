@@ -16,7 +16,7 @@ function CanvasService:new(o, canvas)
 end
 
 local function compare(a, b)
-    return a.zIndex > b.zIndex
+    return a.zIndex > b.zIndex -- big to small
 end
 
 function CanvasService:getMetaData()
@@ -81,7 +81,7 @@ function CanvasService:draw(prisms)
         local v2 = self:transform(v.v2, transform)
         local v3 = self:transform(v.v3, transform)
 
-        local zIndex = v1.z + v2.z + v3.z;
+        local zIndex = v1.z + v2.z + v3.z / 3;
 
         vertecies[#vertecies+1] = { zIndex = zIndex, v1 = {v1.x + self.offset, v1.y + self.offset}, v2 = {v2.x + self.offset, v2.y + self.offset}, v3 = {v3.x + self.offset, v3.y + self.offset}, color = v.color}
     end
@@ -92,7 +92,7 @@ function CanvasService:draw(prisms)
         self.canvas.addTriangle(v.v1, v.v2, v.v3, v.color)
     end
 
-    local text = self.canvas.addText({y = 5, x = 10}, "")
+    local text = self.canvas.addText({y = 10, x = 10}, "")
     text.setText(tostring(metaData.yaw))
 
     local textX = self.canvas.addText({y = 20, x = 10}, "")
@@ -100,4 +100,10 @@ function CanvasService:draw(prisms)
 
     local textDeg = self.canvas.addText({y = 30, x = 10}, "")
     textDeg.setText(tostring(math.deg(metaData.pitch)))
+
+    local textPosX = self.canvas.addText({y = 40, x = 10}, "")
+    textPosX.setText(tostring("X: " .. metaData.x))
+
+    local textPosY = self.canvas.addText({y = 50, x = 10}, "")
+    textPosY.setText(tostring("Y: " .. metaData.y))
 end
