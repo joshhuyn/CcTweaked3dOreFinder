@@ -1,5 +1,3 @@
-require("gui.ScannerService")
-
 CanvasService = {canvas = nil, offset = 100, scannerService = nil, blockName = nil}
 
 function CanvasService:new(o, canvas, scannerService, blockName)

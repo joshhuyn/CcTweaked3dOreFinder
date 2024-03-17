@@ -1,5 +1,5 @@
 require("gui.CanvasService")
-require("gui.ScannerService")
+require("scanner.ScannerService")
 
 Main = {canvasService = nil, width = 50, widthPos = 0, widthNegativePos = 0, blockName = "minecraft:iron_ore"}
 
@@ -171,12 +171,13 @@ function Main:createPrism()
         },
         color = 0xFFFFFFFF
     }
+    -- Disabled until zIndexing is fixed
 
     -- stack[#stack + 1] = { -- bottom 2
     --     v1 = {
     --         x = self.widthNegativePos,
     --         y = self.widthPos,
-    --         z = self.widthNegativePos
+    --         z = self.widthPos
     --     },
     --     v2 = {
     --         x = self.widthNegativePos,
@@ -187,6 +188,44 @@ function Main:createPrism()
     --         x = self.widthPos,
     --         y = self.widthPos,
     --         z = self.widthNegativePos
+    --     },
+    --     color = 0xFFFFFFFF
+    -- }
+
+    -- stack[#stack + 1] = { -- bottom 3
+    --     v1 = {
+    --         x = self.widthPos,
+    --         y = self.widthPos,
+    --         z = self.widthNegativePos
+    --     },
+    --     v2 = {
+    --         x = self.widthNegativePos,
+    --         y = self.widthPos,
+    --         z = self.widthPos
+    --     },
+    --     v3 = {
+    --         x = self.widthPos,
+    --         y = self.widthPos,
+    --         z = self.widthPos
+    --     },
+    --     color = 0xFFFFFFFF
+    -- }
+
+    -- stack[#stack + 1] = { -- bottom 4
+    --     v1 = {
+    --         x = self.widthNegativePos,
+    --         y = self.widthPos,
+    --         z = self.widthNegativePos
+    --     },
+    --     v2 = {
+    --         x = self.widthNegativePos,
+    --         y = self.widthPos,
+    --         z = self.widthPos
+    --     },
+    --     v3 = {
+    --         x = self.widthPos,
+    --         y = self.widthPos,
+    --         z = self.widthPos
     --     },
     --     color = 0xFFFFFFFF
     -- }
